@@ -32,6 +32,9 @@ script:
  - rm -rf ${SRC_REPO}/.git
  - ls -la ${SRC_REPO}
  - ls -la
+ - cd ${DEST_REPO}
+ - git checkout -b ${BRANCH_NAME}
+ - cd -
  - cp -rf ${SRC_REPO}/* ${DEST_REPO}/
  - ls -la
  - rm -rf ${SRC_REPO}
@@ -44,7 +47,9 @@ script:
  - git config user.name ${USER}
  - git add .
  - git commit -m "Deployment process using deployer repository from Travis build  $TRAVIS_BUILD_NUMBER"
- - git push "https://${GITHUB_API_KEY}@${GH_REPO}" master
+ - git remote add origin-pages https://${GH_TOKEN}@${GH_REPO}
+ - git push --quiet --set-upstream origin-pages ${BRANCH_NAME}
+#- git push "https://${GITHUB_API_KEY}@${GH_REPO}" ${BRANCH_NAME}
 
 after_success:
 
